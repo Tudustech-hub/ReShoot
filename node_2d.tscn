@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://dl4k7an6uajua"]
+
+[ext_resource type="Script" uid="uid://bjddxjrowqqe8" path="res://scripts/arena.gd" id="1_arena"]
+[ext_resource type="Texture2D" uid="uid://bugmwofby64eh" path="res://Assets/battlefield.png" id="2_floor"]
+[ext_resource type="PackedScene" uid="uid://b8rr80rhut0in" path="res://scenes/player.tscn" id="3_player"]
+[ext_resource type="Script" uid="uid://cjtquy8ujr33c" path="res://scripts/camera_shake.gd" id="4_cam"]
+[ext_resource type="PackedScene" uid="uid://dm0hudhaven" path="res://scenes/hud.tscn" id="5_hud"]
+[ext_resource type="Texture2D" uid="uid://bf0fashf5c8og" path="res://Assets/Logo.png" id="6_logo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_top"]
+size = Vector2(1152, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bot"]
+size = Vector2(1152, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_side"]
+size = Vector2(40, 648)
+
+[node name="Node2D" type="Node2D" unique_id=881257712]
+script = ExtResource("1_arena")
+
+[node name="Floor" type="Sprite2D" parent="." unique_id=4895978]
+texture_filter = 1
+scale = Vector2(18, 10.125)
+texture = ExtResource("2_floor")
+centered = false
+
+[node name="CourtLogo" type="Sprite2D" parent="." unique_id=1018047574]
+modulate = Color(1, 1, 1, 0.4)
+texture_filter = 1
+position = Vector2(576, 324)
+scale = Vector2(2, 2)
+texture = ExtResource("6_logo")
+
+[node name="CourtLines" type="Node2D" parent="." unique_id=432393447]
+
+[node name="OuterBorder" type="Line2D" parent="CourtLines" unique_id=2026205933]
+points = PackedVector2Array(40, 40, 1112, 40, 1112, 608, 40, 608, 40, 40)
+width = 4.0
+
+[node name="CenterLine" type="Line2D" parent="CourtLines" unique_id=1030267090]
+points = PackedVector2Array(40, 324, 1112, 324)
+width = 3.0
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=1266477682]
+collision_mask = 0
+
+[node name="TopWall" type="CollisionShape2D" parent="Walls" unique_id=624319627]
+position = Vector2(576, 20)
+shape = SubResource("RectangleShape2D_top")
+
+[node name="BottomWall" type="CollisionShape2D" parent="Walls" unique_id=1180923709]
+position = Vector2(576, 628)
+shape = SubResource("RectangleShape2D_bot")
+
+[node name="LeftWall" type="CollisionShape2D" parent="Walls" unique_id=266209438]
+position = Vector2(20, 324)
+shape = SubResource("RectangleShape2D_side")
+
+[node name="RightWall" type="CollisionShape2D" parent="Walls" unique_id=1101129532]
+position = Vector2(1132, 324)
+shape = SubResource("RectangleShape2D_side")
+
+[node name="TurretContainer" type="Node2D" parent="." unique_id=459288827]
+
+[node name="BallContainer" type="Node2D" parent="." unique_id=1520946869]
+
+[node name="Player" parent="." unique_id=1202935645 instance=ExtResource("3_player")]
+position = Vector2(576, 480)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1377652238]
+position = Vector2(576, 324)
+script = ExtResource("4_cam")
+
+[node name="HUD" parent="." unique_id=392488701 instance=ExtResource("5_hud")]
+
+[node name="BallSpawnTimer" type="Timer" parent="." unique_id=1321351599]
+wait_time = 3.5
+autostart = true
+
+[connection signal="timeout" from="BallSpawnTimer" to="." method="_on_ball_spawn_timer_timeout"]
