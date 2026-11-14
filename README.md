@@ -5,6 +5,7 @@
 # ReShoot
 
 **A game where turrets shoot different types of bouncy balls at you, like tennis, translucent, bowling and slime balls!**
+** BUT you got to dodge them :)**
 
 Made in Godot, and also made at my first game jam!
 
