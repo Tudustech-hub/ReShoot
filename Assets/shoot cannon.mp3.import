@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bicvew0rgkq18"
+path="res://.godot/imported/shoot cannon.mp3-23b9a092d5cadfcd514b3d7325fd29d8.mp3str"
+
+[deps]
+
+source_file="res://Assets/shoot cannon.mp3"
+dest_files=["res://.godot/imported/shoot cannon.mp3-23b9a092d5cadfcd514b3d7325fd29d8.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
