@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://c8k10dodgeballhaven"]
+
+[ext_resource type="Script" path="res://scripts/dodgeball.gd" id="1_ball"]
+[ext_resource type="Texture2D" path="res://Assets/Ball.png" id="2_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_phy"]
+radius = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 24.0
+
+[node name="Dodgeball" type="CharacterBody2D" groups=["dodgeballs"]]
+collision_layer = 4
+collision_mask = 11
+script = ExtResource("1_ball")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.38, 0.38)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_phy")
+
+[node name="PickupArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
+shape = SubResource("CircleShape2D_pickup")
+
+[connection signal="body_entered" from="PickupArea" to="." method="_on_pickup_area_body_entered"]

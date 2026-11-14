@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://c6arenahaven"]
+
+[ext_resource type="Script" path="res://scripts/arena.gd" id="1_arena"]
+[ext_resource type="Texture2D" path="res://Assets/battlefield.png" id="2_floor"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="3_player"]
+[ext_resource type="Script" path="res://scripts/camera_shake.gd" id="4_cam"]
+[ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="5_hud"]
+[ext_resource type="Texture2D" path="res://Assets/Logo.png" id="6_logo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_top"]
+size = Vector2(1152, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bot"]
+size = Vector2(1152, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_side"]
+size = Vector2(40, 648)
+
+[node name="Arena" type="Node2D"]
+script = ExtResource("1_arena")
+
+[node name="Floor" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(18, 10.125)
+texture = ExtResource("2_floor")
+centered = false
+
+[node name="CourtLogo" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(576, 324)
+scale = Vector2(2, 2)
+texture = ExtResource("6_logo")
+modulate = Color(1, 1, 1, 0.4)
+
+[node name="CourtLines" type="Node2D" parent="."]
+
+[node name="OuterBorder" type="Line2D" parent="CourtLines"]
+points = PackedVector2Array(40, 40, 1112, 40, 1112, 608, 40, 608, 40, 40)
+width = 4.0
+default_color = Color(1, 1, 1, 1)
+
+[node name="CenterLine" type="Line2D" parent="CourtLines"]
+points = PackedVector2Array(40, 324, 1112, 324)
+width = 3.0
+default_color = Color(1, 1, 1, 1)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="TopWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(576, 20)
+shape = SubResource("RectangleShape2D_top")
+
+[node name="BottomWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(576, 628)
+shape = SubResource("RectangleShape2D_bot")
+
+[node name="LeftWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(20, 324)
+shape = SubResource("RectangleShape2D_side")
+
+[node name="RightWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1132, 324)
+shape = SubResource("RectangleShape2D_side")
+
+[node name="TurretContainer" type="Node2D" parent="."]
+
+[node name="BallContainer" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(576, 480)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+script = ExtResource("4_cam")
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]
+
+[node name="BallSpawnTimer" type="Timer" parent="."]
+wait_time = 3.5
+autostart = true
+
+[connection signal="timeout" from="BallSpawnTimer" to="." method="_on_ball_spawn_timer_timeout"]

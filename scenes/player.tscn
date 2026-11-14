@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://b8xplayerhaven"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
+[ext_resource type="Texture2D" path="res://Assets/Character.png" id="2_idle"]
+[ext_resource type="Texture2D" path="res://Assets/Character_walk1.png" id="3_w1"]
+[ext_resource type="Texture2D" path="res://Assets/Character_walk2.png" id="4_w2"]
+[ext_resource type="Texture2D" path="res://Assets/Ball.png" id="5_ball"]
+[ext_resource type="Texture2D" path="res://Assets/Shooter_aim_thingy.png" id="6_aim"]
+[ext_resource type="AudioStream" path="res://Assets/Walking2.wav" id="7_audio"]
+[ext_resource type="AudioStream" path="res://Assets/BallThrowPerson.mp3" id="8_throw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_player"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_idle")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_w1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_w2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_w1")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
+radius = 13.0
+height = 44.0
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_player")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_player")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("CapsuleShape2D_body")
+
+[node name="HeldBallSprite" type="Sprite2D" parent="."]
+visible = false
+z_index = 1
+texture_filter = 1
+scale = Vector2(0.38, 0.38)
+texture = ExtResource("5_ball")
+
+[node name="AimReticle" type="Sprite2D" parent="."]
+visible = false
+top_level = true
+z_index = 10
+texture_filter = 1
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("6_aim")
+
+[node name="WalkAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_audio")
+volume_db = -8.0
+bus = &"Master"
+
+[node name="ThrowAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_throw")
+volume_db = -2.0
+bus = &"Master"

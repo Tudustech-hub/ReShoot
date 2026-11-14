@@ -1,0 +1,415 @@
+[gd_scene format=3 uid="uid://dm0hudhaven"]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
+[ext_resource type="Texture2D" path="res://Assets/Ball.png" id="2_ball"]
+[ext_resource type="Texture2D" path="res://Assets/hearts/heart_32x32.png" id="5_heart"]
+[ext_resource type="Texture2D" path="res://Assets/1_counter.png" id="6_round"]
+[ext_resource type="Texture2D" path="res://Assets/yudied.png" id="7_yudied"]
+[ext_resource type="AudioStream" path="res://Assets/Walking2.wav" id="8_sfx"]
+[ext_resource type="AudioStream" path="res://Assets/Rolling_Modifiers.mp3" id="9_roll"]
+[ext_resource type="Texture2D" path="res://Assets/Logo.png" id="10_logo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dash_bg"]
+bg_color = Color(0.15, 0.15, 0.15, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dash_fill"]
+bg_color = Color(0.9, 0.9, 0.9, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mod_box"]
+bg_color = Color(0.08, 0.08, 0.08, 0.96)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+bg_color = Color(0.1, 0.1, 0.1, 0.95)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.9, 0.9, 0.9, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 20.0
+content_margin_top = 8.0
+content_margin_right = 20.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0.95, 0.95, 0.95, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 20.0
+content_margin_top = 8.0
+content_margin_right = 20.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+bg_color = Color(0.7, 0.7, 0.7, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 20.0
+content_margin_top = 8.0
+content_margin_right = 20.0
+content_margin_bottom = 8.0
+
+[sub_resource type="Gradient" id="Gradient_radial"]
+offsets = PackedFloat32Array(0, 0.45, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0.92)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_radial"]
+gradient = SubResource("Gradient_radial")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="HUD" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_hud")
+
+[node name="TopBar" type="HBoxContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 56.0
+grow_horizontal = 2
+theme_override_constants/separation = 20
+
+[node name="HeartsContainer" type="HBoxContainer" parent="TopBar"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Heart1" type="TextureRect" parent="TopBar/HeartsContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("5_heart")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Heart2" type="TextureRect" parent="TopBar/HeartsContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("5_heart")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Heart3" type="TextureRect" parent="TopBar/HeartsContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("5_heart")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BallIndicator" type="TextureRect" parent="TopBar"]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_ball")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ModifierIndicator" type="TextureRect" parent="TopBar"]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DashProgressBar" type="ProgressBar" parent="TopBar"]
+custom_minimum_size = Vector2(90, 10)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_dash_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_dash_fill")
+value = 100.0
+show_percentage = false
+
+[node name="Spacer" type="Control" parent="TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RoundHBox" type="HBoxContainer" parent="TopBar"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RoundCounter" type="TextureRect" parent="TopBar/RoundHBox"]
+texture_filter = 1
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture = ExtResource("6_round")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RoundTopLabel" type="Label" parent="TopBar/RoundHBox"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 22
+text = "ROUND 1"
+vertical_alignment = 1
+
+[node name="StopButton" type="Button" parent="TopBar"]
+texture_filter = 1
+custom_minimum_size = Vector2(76, 32)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.08, 0.08, 0.08, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.05, 1)
+theme_override_font_sizes/font_size = 14
+text = "STOP ||"
+
+[node name="RadialGradientBackdrop" type="TextureRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_radial")
+expand_mode = 1
+
+[node name="CountdownCenter" type="CenterContainer" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CountdownRect" type="TextureRect" parent="CountdownCenter"]
+texture_filter = 1
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RoundAnnounceCenter" type="CenterContainer" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="RoundAnnounceCenter"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="LogoRect" type="TextureRect" parent="RoundAnnounceCenter/VBox"]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("10_logo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RoundLabel" type="Label" parent="RoundAnnounceCenter/VBox"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 56
+text = "ROUND 1 STARTED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ModifierSelectCenter" type="CenterContainer" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="ModifierSelectCenter"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mod_box")
+
+[node name="Margin" type="MarginContainer" parent="ModifierSelectCenter/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 28
+
+[node name="VBox" type="VBoxContainer" parent="ModifierSelectCenter/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="ModTitle" type="Label" parent="ModifierSelectCenter/Panel/Margin/VBox"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 28
+text = "CHOOSING MODIFIER..."
+horizontal_alignment = 1
+
+[node name="ModIcon" type="TextureRect" parent="ModifierSelectCenter/Panel/Margin/VBox"]
+texture_filter = 1
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ModName" type="Label" parent="ModifierSelectCenter/Panel/Margin/VBox"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 20
+text = "SLIME PROJECTILES"
+horizontal_alignment = 1
+
+[node name="PauseCenter" type="CenterContainer" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="PauseCenter"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mod_box")
+
+[node name="Margin" type="MarginContainer" parent="PauseCenter/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 32
+
+[node name="VBox" type="VBoxContainer" parent="PauseCenter/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="PauseTitle" type="Label" parent="PauseCenter/Panel/Margin/VBox"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 32
+text = "GAME PAUSED"
+horizontal_alignment = 1
+
+[node name="ButtonVBox" type="VBoxContainer" parent="PauseCenter/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ResumeButton" type="Button" parent="PauseCenter/Panel/Margin/VBox/ButtonVBox"]
+texture_filter = 1
+custom_minimum_size = Vector2(220, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.08, 0.08, 0.08, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.05, 1)
+theme_override_font_sizes/font_size = 20
+text = "RESUME"
+
+[node name="RestartButton" type="Button" parent="PauseCenter/Panel/Margin/VBox/ButtonVBox"]
+texture_filter = 1
+custom_minimum_size = Vector2(220, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.08, 0.08, 0.08, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.05, 1)
+theme_override_font_sizes/font_size = 20
+text = "RESTART GAME"
+
+[node name="PauseHint" type="Label" parent="PauseCenter/Panel/Margin/VBox"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 14
+text = "PRESS ESC OR P TO RESUME"
+horizontal_alignment = 1
+
+[node name="GameOverCenter" type="CenterContainer" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RetryButton" type="TextureButton" parent="GameOverCenter"]
+texture_filter = 1
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("7_yudied")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TickAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_sfx")
+volume_db = -4.0
+
+[node name="RollAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_roll")
+volume_db = 0.0
+
+[connection signal="pressed" from="TopBar/StopButton" to="." method="_on_stop_button_pressed"]
+[connection signal="pressed" from="PauseCenter/Panel/Margin/VBox/ButtonVBox/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="PauseCenter/Panel/Margin/VBox/ButtonVBox/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="GameOverCenter/RetryButton" to="." method="_on_retry_button_pressed"]

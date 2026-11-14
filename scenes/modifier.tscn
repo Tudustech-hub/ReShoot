@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dm0modifierhaven"]
+
+[ext_resource type="Script" path="res://scripts/modifier.gd" id="1_mod"]
+[ext_resource type="Texture2D" path="res://Assets/Modifier_SlimeProjectiles.png" id="2_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 24.0
+
+[node name="ModifierPickup" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_mod")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pickup")
