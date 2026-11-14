@@ -27,7 +27,7 @@ Play directly in your browser here: https://tudustech.itch.io/rebounce
 
 
 ## Controls!
- WASD Or UP,DOWN,LEFT,RIGHT Arrow on your keyboard
- ESC Or P to pause
- Left Click to Shoot
- Move Mouse around to AIM
+ * WASD Or UP,DOWN,LEFT,RIGHT Arrow on your keyboard
+ * ESC Or P to pause
+ * Left Click to Shoot
+ * Move Mouse around to AIM
